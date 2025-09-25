@@ -1,6 +1,16 @@
 // Váriavel GLOBAL
 let tarefas = [];
 
+// Renderizar página
+function renderizarLista() {
+  const lista = document.getElementById('lista');
+  lista.innerHTML = ''; // Limpa a lista antes de renderizar
+  tarefas.forEach((tarefa, index) => {
+    const novoItem = document.createElement('li');
+    novoItem.classList.add('item-tarefa');
+}
+}
+
 // Quando o botão "Adicionar" for clicado, esta função será chamada
 function adicionarTarefa() {
 
