@@ -18,9 +18,6 @@ function adicionarTarefa() {
       novoItem.textContent = textoTarefa;
       novoItem.classList.add('item-tarefa');
       lista.appendChild(novoItem);
-      novoItem.addEventList('click', function() {
-        novoItem.classList.toggle('concluido');
-      })
       inputTarefa.value = ''; // Limpa o campo de texto
        
 
