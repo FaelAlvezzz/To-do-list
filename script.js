@@ -26,9 +26,9 @@ function renderizarLista() {
     checkBox.classList.add('checkBox-tarefa');
     //Evento de botão concluído
     checkBox.addEventListener('change', function() {
-      texto[index].concluido = checkBox.checked;
+      tarefas[index].concluido = checkBox.checked;
       spanTexto.classList.toggle('tarefa-concluida', checkBox.checked);
-      novoItem.classList.toggle('item-concluido', checkBox.cheked);
+      novoItem.classList.toggle('item-concluido', checkBox.checked);
       salvarStorage(); 
     })
     
@@ -38,7 +38,7 @@ function renderizarLista() {
     // Adiciona a funcionalidade do botão deletar
     botaoDeletar.onclick = function() {
       tarefas.splice(index, 1);
-      salvarStorage;
+      salvarStorage();
       renderizarLista();
     }
 
