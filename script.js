@@ -4,96 +4,85 @@ let tarefas = [];
 // Renderizar página
 function renderizarLista() {
   const lista = document.getElementById('lista');
-  lista.innerHTML = ''; // Limpa a lista antes de renderizar
-  tarefas.forEach((tarefa, index) => {
-    const novoItem = document.createElement('li');
+    lista.innerHTML = ''; // Limpa a lista antes de renderizar
+     tarefas.forEach((tarefa, index) => {
+
+  // Elementos
+  const novoItem = document.createElement('li');
+  const spanTexto = document.createElement('span');
+  const checkBox = document.createElement('input');
+  const botaoDeletar = document.createElement('button');
+      
+    // Cria um novo item de lista
     novoItem.classList.add('item-tarefa');
-}
+
+    //Criando o span
+    spanTexto.textContent = tarefa.texto;
+
+    checkBox.checked = tarefa.concluido; //chamando a função checkbox se for true
+
+    // Criando Checkbox concluído
+    checkBox.type = 'checkBox';
+    checkBox.classList.add('checkBox-tarefa');
+    //Evento de botão concluído
+    checkBox.addEventListener('change', function() {
+      texto[index].concluido = checkBox.checked;
+      spanTexto.classList.toggle('tarefa-concluida', checkBox.checked);
+      novoItem.classList.toggle('item-concluido', checkBox.cheked);
+      salvarStorage(); 
+    })
+    
+    // Cria o botão de deletar
+    botaoDeletar.textContent = 'Deletar';
+    botaoDeletar.classList.add('botao-delete');       
+    // Adiciona a funcionalidade do botão deletar
+    botaoDeletar.onclick = function() {
+      tarefas.splice(index, 1);
+      salvarStorage;
+      renderizarLista();
+    }
+
+    // Adiciona o checkbox, o span e o botão de deletar ao novo item da lista
+    novoItem.appendChild(checkBox);
+    novoItem.appendChild(spanTexto);
+    novoItem.appendChild(botaoDeletar);
+
+    // Adiciona o novo item à lista
+    lista.appendChild(novoItem);
+  });
 }
 
 // Quando o botão "Adicionar" for clicado, esta função será chamada
 function adicionarTarefa() {
 
-    // Campo de texto e a lista no HTML
-    const inputTarefa = document.getElementById('nova-tarefa');
-    const lista = document.getElementById('lista');
+  // Campo de texto e a lista no HTML
+  const inputTarefa = document.getElementById('nova-tarefa');
 
-    
-    // Pega o valor do campo de texto e cria uma nova tarefa
-    const textoTarefa = inputTarefa.value.trim();
+  // Pega o valor do campo de texto e cria uma nova tarefa
+  const textoTarefa = inputTarefa.value.trim();
         
-    
     //Verifica se o campo está vazio
     if (textoTarefa == "") {
       alert("Por favor, insira uma tarefa!!");
       return; //Sai da função se o campo estiver vazio
-       }
+    }
 
-    // Cria um novo item de lista
-    const novoItem = document.createElement('li');
-      novoItem.classList.add('item-tarefa');
-      
-    //Criando o span
-    const spanTexto = document.createElement('span');
-      spanTexto.textContent = textoTarefa;
-    
-    // Criando Checkbox concluído
-    const checkBox = document.createElement('input');
-      checkBox.type = 'checkBox';
-      checkBox.classList.add('checkBox-tarefa');
-      //Evento de botão concluído
-    checkBox.addEventListener('change', function() {
-      spanTexto.classList.toggle('tarefa-concluida', checkBox.checked);
-      novoItem.classList.toggle('item-concluido', checkBox.cheked);
-      salvarTf(); 
-    })
+    //Manipulando Array
+    const novaTarefa = {
+      texto: textoTarefa,
+      concluido: false
+    }
 
-    // Cria o botão de deletar
-      const botaoDeletar = document.createElement('button');
-      botaoDeletar.textContent = 'Deletar';
-      botaoDeletar.classList.add('botao-delete');       
-      // Adiciona a funcionalidade do botão deletar
-      botaoDeletar.onclick = function() {
-        lista.removeChild(novoItem);
-        salvarTf();
-      }
-      
-      // Adiciona o checkbox, o span e o botão de deletar ao novo item da lista
-      novoItem.appendChild(checkBox);
-      novoItem.appendChild(spanTexto);
-      novoItem.appendChild(botaoDeletar);
+    tarefas.push(novaTarefa); // Adicion o objeto ao Array
+    salvarStorage();
+    renderizarLista();
 
-      
-      // Adiciona o novo item à lista
-      lista.appendChild(novoItem);
-      salvarTf(); // Salva a lista no armazenamento local
-
-
-      // Limpa o campo de texto
-      inputTarefa.value = ''; 
-      inputTarefa.focus(); // Coloca o foco de volta no campo de texto
-}
-carregarTf(); // Chama a função para carregar as tarefas salvas ao carregar a página
-
-// Carrega as tarefas salvas quando a página é carregada
-function salvarTf() {
-  const lista = document.getElementById('lista');
-
-  // Salvando a lista no HTLM
-  const sHTML = lista.innerHTML;
-  localStorage.setItem('tarefas', sHTML);
+    // Limpa o campo de texto
+    inputTarefa.value = ''; 
+    inputTarefa.focus(); // Coloca o foco de volta no campo de texto
 }
 
-// Função carregas que mantem o que foi digitado mesmo após atualizar a página
-function carregarTf() {
-  
-  const htmlSalvo = localStorage.getItem('tarefas');
-  
-  if (htmlSalvo) {
-    const lista = document.getElementById('lista');
-    lista.innerHTML = htmlSalvo;
-  }
-}
+carregarStorage();
 
 //Salvar no local storage
 function salvarStorage() {
