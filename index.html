@@ -8,13 +8,16 @@
 </head>
 <body>
  <h1 class="titulo">Lista de Tarefas</h1>
-  <input type="text" id="nova-tarefa" placeholder="Adicionar nova tarefa">
+  <div class="input-container">
+    <input type="text" id="nova-tarefa" placeholder="Adicionar nova tarefa">
     <button onclick="adicionarTarefa()" id="botao-tarefa" class="botao-adicionar">Adicionar</button>
-    <div class="container">
-      <ul class="lista-tarefa" id="lista"></ul>
-    </div> 
+  </div> 
+ 
+  <div class="container">
+    <ul class="lista-tarefa" id="lista"></ul>
+   </div> 
     
 
-     <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
