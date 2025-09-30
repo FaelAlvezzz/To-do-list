@@ -1,8 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function App() {
-  const [tarefas, setTarefas] = useState([]);
+  const [tarefas, setTarefas] = useState(() => {
+    const save = localStorage.getItem('tarefas');
+    return save ? JSON.parse(save) : [];
+  });
   const [inputValue, setInputValue] = useState("");
+
+  const toggleTarefa = id => {
+    setTarefas(tarefas.map(tarefa => {
+      if(tarefa.id === id) {
+        return{...tarefa, concluido: !tarefa.concluido};
+      }
+      return tarefa;
+    }))
+  }
+
+  useEffect(() => {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas));
+  }, [tarefas]);
 
   const adicionarTarefa = () => {
     if (inputValue.trim() === '') return; // Evita adicionar tarefas vazias
@@ -30,12 +46,23 @@ function App() {
       
       <button onClick={adicionarTarefa}>Adicionar</button>
 
-      <ul>
+      <ul id="lista-tarefas">
         {tarefas.map((tarefa) => 
         <li key={tarefa.id} className="item-tarefa">
           {tarefa.texto}
         </li>
         )}
+        <input 
+          type = "checkBox"
+          className = "checkBox-tarefa"
+          checked = {tarefas.concluido}
+          onChange = {() => toggleTarefa(tarefas.id)}
+        />
+        <span className ={tarefas.concluido ? "texto-concluido" : ''}>
+          {tarefas.texto}
+        </span>
+
+         
       </ul>
     </div>
     
