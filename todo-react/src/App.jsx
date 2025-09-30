@@ -3,32 +3,47 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+import {useStates} from react;
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [tarefas, setTarefas] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const adicionarTarefa = () => {
+    if (inputValue.trim() === '') return; // Evita adicionar tarefas vazias
+    
+    const novaTarefa = {
+      texto: inputValue,
+      concluido: false,
+      id: Date.now()
+    }
+
+    setTarefas([...tarefas, novaTarefa]);
+    setInputValue(''); // Limpa o campo de input
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="Container">
+      <h1>Minha Lista de Tarefas</h1>
+
+      <input 
+        type="text"
+        placeholder="Nova tarefa..."
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+      />
+      
+      <button onClick={adicionarTarefa}>Adicionar</button>
+
+      <ul>
+        {tarefas.map((tarefa) => 
+        <li key={tarefa.id} className="item-tarefa">
+          {tarefa.texto}
+        </li>
+        )}
+      </ul>
+    </div>
+    
   )
 }
 
