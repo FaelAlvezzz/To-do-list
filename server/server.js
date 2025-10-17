@@ -24,4 +24,4 @@ app.use('/api/tasks', require('./router/task'));
 
 const PORT = process.env.PORT || 5000;
 
-api.listen(PORT, () => console.log('Servidor rodando na porta', ${PORT}));
+api.listen(PORT, () => console.log('Servidor rodando na porta ${PORT}'));
