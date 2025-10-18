@@ -18,9 +18,9 @@ app.use(express.json());
 
 //Rotas
 //Auth usa o PostgreSQL
-app.use('/api/auth', require('./routes/auth'));
+app.use('/api/auth', require('./router/auth'));
 //Task usa o modelo Taks do MongoDB
-app.use('/api/tasks', require('./routes/task'));
+app.use('/api/tasks', require('./router/task'));
 
 const PORT = process.env.PORT || 5000;
 
