@@ -1,12 +1,12 @@
 const express = require('express');
-const router = express.Router();
+const routes = express.Routes();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 // Chamando o user
 const User = require('../models/User');
 
-router.post('/register', async (req, res) => {
+routes.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
     try {
         let user = await User.findOne({ where: { email } });
