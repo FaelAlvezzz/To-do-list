@@ -1,10 +1,10 @@
 require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
+import express, { json } from 'express';
+import cors from 'cors';
 
 // Puxando os dois bancos de dados
-const connectMongo = require('./db/mongo');
-const { connectPostgres } = require('./db/postgre');
+import connectMongo from './db/mongo';
+import { connectPostgres } from './db/postgre';
 
 const app = express();
 
@@ -14,7 +14,7 @@ connectPostgres();
 
 //Middlware
 app.use(cors());
-app.use(express.json());
+app.use(json());
 
 //Rotas
 //Auth usa o PostgreSQL
