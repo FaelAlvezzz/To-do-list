@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize( 
     process.env.DB_NAME,
@@ -11,14 +11,14 @@ const sequelize = new Sequelize(
     }
 );
 
-const connectPostgres = async () => {
+async function connectDB() {
     try {
-        await sequelize.authenticate();
-        console.log('✅ PostgreSQL Conectado com sucesso!!')
-        await sequelize.sync();
-    }catch (error) {
+        await sequelize;
+        console.log('✅ PostgreSQL Conectado com sucesso!!');
+        return sequelize;
+    } catch (error) {
         console.error('❌ Error no PostgreSQL: ', error.message);
     }
-};
+}
 
-module.exports = { sequelize, connectPostgres };
+module.exports = { sequelize, connectDB };

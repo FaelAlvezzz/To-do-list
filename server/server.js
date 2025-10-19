@@ -5,13 +5,13 @@ const cors = require('cors');
 
 // Puxando os dois bancos de dados
 const connectMongo = require('./db/mongo');
-const { connectPostgres } = require('./db/postgre');
+const { connectDB } = require('./db/postgre');
 
 const app = express();
 
 // Conecta aos bancos de dados
 connectMongo();
-connectPostgres();
+connectDB();
 
 //Middlware
 app.use(cors());
