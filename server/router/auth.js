@@ -54,7 +54,8 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
-        if (!await User.findOne({ where: { email } })) return res.status(400).json({ msg: 'Login inválido!' });
+        let user = await User.findOne({ where: { email } });
+        if (user) return res.status(400).json({ msg: 'Usuário já existe' });
 
         // Comparando a senha enviada com a cryptografada
         const isMatch = await bcrypt.compare(password, (await User.findOne({ where: { email } })).password);

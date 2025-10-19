@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db/postgre');
 
-const User = sequelize.define('user', {
+const User = sequelize.define('User', {
     id: {
         type: DataTypes,
         autoIncrement: true,
@@ -20,7 +20,9 @@ const User = sequelize.define('user', {
         type: DataTypes,
         allowNull: false
     }
-}, {});
+}, {
+    tableName: 'users'
+});
 
 module.exports = User;
 
