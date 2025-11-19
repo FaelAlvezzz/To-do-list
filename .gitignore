@@ -1,8 +1,0 @@
-# -- Arquivos sensiveis --
-.env
-
-# Arquivos de dependências
-/node_modules
-
-# Logs de debug do NPM
-npm-debug.log*
