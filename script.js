@@ -1,12 +1,15 @@
 // Váriavel GLOBAL
 let tarefas = [];
 
+const inputTarefa = document.getElementById('nova-tarefa');
+
 // Renderizar página
 function renderizarLista() {
   const lista = document.getElementById('lista');
     lista.innerHTML = ''; // Limpa a lista antes de renderizar
-     tarefas.forEach((tarefa, index) => {
-
+     
+    
+  tarefas.forEach((tarefa, index) => {
   // Elementos
   const novoItem = document.createElement('li');
   const spanTexto = document.createElement('span');
@@ -15,15 +18,19 @@ function renderizarLista() {
       
     // Cria um novo item de lista
     novoItem.classList.add('item-tarefa');
-
     //Criando o span
     spanTexto.textContent = tarefa.texto;
 
     checkBox.checked = tarefa.concluido; //chamando a função checkbox se for true
-
-    // Criando Checkbox concluído
-    checkBox.type = 'checkBox';
+    checkBox.type = 'checkBox';// Criando Checkbox concluído
     checkBox.classList.add('checkBox-tarefa');
+    
+    //Verifica se a tarefa está concluída 
+    if(tarefa.concluido) {
+      spanTexto.classList.add('tarefa-concluida');
+      novoItem.classList.add('item-concluido');
+    }
+    
     //Evento de botão concluído
     checkBox.addEventListener('change', function() {
       tarefas[index].concluido = checkBox.checked;
@@ -98,3 +105,10 @@ function carregarStorage() {
   }
   renderizarLista();
 }
+
+// Botão Enter função
+inputTarefa.addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+    adicionarTarefa();
+  }
+});
