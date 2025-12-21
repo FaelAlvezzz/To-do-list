@@ -1,7 +1,11 @@
 // Váriavel GLOBAL
 let tarefas = [];
+let indiceEdicaoAtual = null;
 
+// Elementos do DOM
 const inputTarefa = document.getElementById('nova-tarefa');
+const modal = document.getElementById('modal-edicao');
+const inputEditar = document.getElementById('editar-tarefa')
 
 // Renderizar página
 function renderizarLista() {
@@ -10,15 +14,15 @@ function renderizarLista() {
      
     
   tarefas.forEach((tarefa, index) => {
-  // Elementos
   const novoItem = document.createElement('li');
   const spanTexto = document.createElement('span');
   const checkBox = document.createElement('input');
+  const divBotoes = document.createElement('div');
+  const botaoEditar = document.createElement('button');
   const botaoDeletar = document.createElement('button');
       
-    // Cria um novo item de lista
+    // Cria um novo item de lista e um SPAN para o texto da tarefa
     novoItem.classList.add('item-tarefa');
-    //Criando o span
     spanTexto.textContent = tarefa.texto;
 
     checkBox.checked = tarefa.concluido; //chamando a função checkbox se for true
@@ -29,6 +33,13 @@ function renderizarLista() {
     if(tarefa.concluido) {
       spanTexto.classList.add('tarefa-concluida');
       novoItem.classList.add('item-concluido');
+    }
+
+    //Botao editar
+    botaoEditar.textContent = 'Editar';
+    botaoEditar.classList.add('botao-editar');
+    botaoEditar.onclick = function() {
+      abrirModal(index);
     }
     
     //Evento de botão concluído
@@ -42,7 +53,6 @@ function renderizarLista() {
     // Cria o botão de deletar
     botaoDeletar.textContent = 'Deletar';
     botaoDeletar.classList.add('botao-delete');       
-    // Adiciona a funcionalidade do botão deletar
     botaoDeletar.onclick = function() {
       tarefas.splice(index, 1);
       salvarStorage();
@@ -50,9 +60,13 @@ function renderizarLista() {
     }
 
     // Adiciona o checkbox, o span e o botão de deletar ao novo item da lista
+    divBotoes.appendChild(botaoEditar);
+    divBotoes.appendChild(botaoDeletar);
+    
+    
     novoItem.appendChild(checkBox);
     novoItem.appendChild(spanTexto);
-    novoItem.appendChild(botaoDeletar);
+    novoItem.appendChild(divBotoes);
 
     // Adiciona o novo item à lista
     lista.appendChild(novoItem);
@@ -89,6 +103,39 @@ function adicionarTarefa() {
     inputTarefa.focus(); // Coloca o foco de volta no campo de texto
 }
 
+// Abrir Modal
+function abrirModal(index) {
+  indiceEdicaoAtual = index;
+  inputEditar.value = tarefas[index].texto;
+  modal.classList.remove('oculto');
+  inputEditar.focus();
+}
+
+// Fechar Modal
+function fecharModal() {
+  modal.classList.add('oculto');
+  indiceEdicaoAtual = null;
+}
+
+// Salvando a Edição
+function salvarEdicao() {    
+  const novoTexto = inputEditar.value.trim();
+  if (novoTexto !== '') {
+    tarefas[indiceEdicaoAtual].texto = novoTexto;
+    salvarStorage();
+    renderizarLista();
+    fecharModal();
+  }else {
+    alert("O campo de edição não pode estar vazio!");
+  }
+}
+
+//Permitindo salvar a edição com a tecla Enter
+inputEditar.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    salvarEdicao();
+  };
+});
 carregarStorage();
 
 //Salvar no local storage

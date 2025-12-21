@@ -16,7 +16,17 @@
   <div class="container">
     <ul class="lista" id="lista"></ul>
    </div> 
-    
+  
+  <div id="modal-edicao" class="modal-container oculto">
+    <div class="modal-content">
+      <h3 class="modal-titulo">Editar Tarefa</h3>
+      <input type="text" id="editar-tarefa" placeholder="Digite uma nova tarefa">
+      <div class="modal-botoes">
+        <button onclick="fecharModal()" class="botao-cancelar">Cancelar</button>
+        <button onclick="salvarEdicao()" class="botao-salvar">Salvar</button>
+      </div>
+    </div>
+  </div>
 
 <script src="script.js"></script>
 </body>
