@@ -1,0 +1,19 @@
+@import url('./base.css');
+@import url('./components.css');
+@import url('./media-query.css');
+@import url('./modal.css');
+
+
+:root {
+    --cor-primaria: #4CAF50;
+    --cor-secundaria: #f44336;
+    --cor-fundo: #f0f0f0;
+    --cor-texto: #333333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+

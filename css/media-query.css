@@ -1,0 +1,34 @@
+/* css/responsive.css */
+
+/* TABLETS (Até 900px) */
+@media (max-width: 900px) {
+    .main-layout {
+        gap: 20px;
+        padding: 0 10px;
+    }
+    
+    .titulo { font-size: 32px; }
+}
+
+/* CELULARES (Até 600px) */
+@media (max-width: 600px) {
+    .main-layout {
+        flex-direction: column; /* Colunas ficam uma embaixo da outra */
+        align-items: stretch;
+    }
+
+    .input-container {
+        flex-direction: column; /* Input e botão empilhados */
+    }
+
+    .botao-tarefa { width: 100%; }
+
+    .coluna-tarefas {
+        min-height: auto;
+        margin-bottom: 20px;
+    }
+
+    .item-tarefa {
+        flex-wrap: wrap; /* Permite que botões quebrem linha se o texto for longo */
+    }
+}
