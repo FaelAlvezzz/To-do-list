@@ -95,22 +95,28 @@ router.delete('/:id', async (req, res) => {
     res.json({ message: `Usuário com ID ${id} deletado com sucesso do banco de dados!` });
 });
 
-//POST para login
+// routes/user.js
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
+    const db = await openDb();
 
-    const query = 'SELECT * FROM users WHERE email = ? AND password = ?';
+    try {
+        const user = await db.get('SELECT * FROM users WHERE email = ?', [email]);
+        
+        if (user && await bcrypt.compare(password, user.password)) {
+            const token = await new SignJWT({ id: user.id })
+                .setProtectedHeader({ alg: 'HS256' })
+                .setIssuedAt()
+                .setExpirationTime('2h')
+                .sign(SECRET_KEY);
 
-    db.get(query, [email, password], (err, row) => {
-        if (err) {
-            return res.status(500).json({ error: 'Erro ao acessar o banco de dados.' });
-        }
-        if (row) {
-            res.status(200).json({ message: 'Login bem-sucedido!', user: row });
+            res.json({ message: 'Sucesso!', token, user: { first_name: user.first_name } });
         } else {
-            res.status(401).json({ error: 'Credenciais inválidas.' });
+            res.status(401).json({ error: 'E-mail ou senha incorretos.' });
         }
-    });
+    } catch (error) {
+        res.status(500).json({ error: 'Erro interno.' });
+    }
 });
 
 

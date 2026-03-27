@@ -49,3 +49,23 @@ body {
     box-sizing: border-box;
     padding: 0 10px;
 }
+
+/* 1. Definição da Animação */
+@keyframes fadeInEffect {
+    from {
+        opacity: 0;
+        transform: translateY(-10px); /* Começa um pouco acima */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Termina na posição original */
+    }
+}
+
+/* 2. Classe que aplica a animação */
+.fade-in {
+    animation-name: fadeInEffect;
+    animation-duration: 0.5s; /* Tempo da animação */
+    animation-timing-function: ease-out; /* Suavidade no final */
+    animation-fill-mode: forwards; /* Garante que fique visível no final */
+}

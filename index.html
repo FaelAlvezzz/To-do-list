@@ -7,65 +7,50 @@
     <link rel="stylesheet" href="css/style.css">  
 </head>
 <body>
- <h1 class="titulo">Lista de Tarefas</h1>
-  <div class="input-container">
-    <input type="text" id="novaTarefa" class="nova-tarefa" placeholder="Adicionar nova tarefa">
-    <button onclick="adicionarTarefa()" id="botao-tarefa" class="botao-tarefa">Adicionar</button>
-  </div> 
- 
-  <div class="main-layout">
-    <div class="coluna-tarefas">
-      <h2>Pendentes</h2>
-      <div class="container">
-        <ul class="lista-pendentes" id="lista-tarefas"></ul>
-      </div>
-    </div>
-   </div>
-
-   <div class="coluna-tarefas">
-    <div class="header-concluidas">
-      <h2>Concluídas</h2>
-      <button onclick="apagarTudoConcluidas()" id="btn-limpar">Apagar Tudo</button>
-    </div>
-    <div class="container container-concluidas">
-      <ul id="lista-concluidos" class="lista-tarefa"></ul>
-    </div>
-   </div>
   
-  <div id="modal-edicao" class="modal-container oculto">
-    <div class="modal-content">
-      <h3 class="modal-titulo">Editar Tarefa</h3>
-      <input type="text" id="editarTarefa" placeholder="Digite uma nova tarefa">
-      <div class="modal-botoes">
-        <button onclick="fecharModal()" class="botao-cancelar">Cancelar</button>
-        <button onclick="salvarEdicao()" class="botao-salvar">Salvar</button>
-      </div>
+  <div id="loading-overlay" class="loading-overlay oculto">
+    <div class="spinner"></div>
+    <p>Carregando...</p>
+  </div>
+
+  <h1 class="titulo">Lista de Tarefas</h1>
+
+  <section id="auth-section">
+    <div id="login-container">
+      <h2>Entrar</h2>
+      <input type="email" id="login-email" placeholder="Email">
+      <input type="password" id="login-password" placeholder="Senha">
+      <button onclick="fazerLogin()">Entrar</button>
+      <p>Não tem conta? <a href="#" onclick="alternarAuth(true)">Cadastre-se</a></p>
     </div>
-  </div>
 
-  <div id="registro-container">
-    <input type="text" id="reg-email" placeholder="Email">
-    <input type="password" id="reg-password" placeholder="Senha">
-    <input type="text" id="reg-first-name" placeholder="Primeiro Nome">
-    <input type="text" id="reg-last-name" placeholder="Último Nome">
-    <button type="button" onclick="registrar()">Criar Conta</button>
-  </div>
+    <div id="registro-container" class="oculto">
+      <h2>Criar Conta</h2>
+      <input type="text" id="reg-first-name" placeholder="Primeiro Nome">
+      <input type="text" id="reg-last-name" placeholder="Sobrenome">
+      <input type="email" id="reg-email" placeholder="Email">
+      <input type="password" id="reg-password" placeholder="Senha">
+      <button onclick="registrar()">Criar Conta</button>
+      <p>Já tem conta? <a href="#" onclick="alternarAuth(false)">Fazer Login</a></p>
+    </div>
+  </section>
 
-  <div id="login-container">
-    <h2>Login de Usuário</h2>
-    <div class="input-group">
-        <label for="login-email">Email:</label>
-        <input type="text" id="login-username" placeholder="Digite seu nome de usuário">
+  <section id="app-section" class="oculto">
+    <div class="header-app">
+      <span id="boas-vindas"></span>
+      <button onclick="logout()">Sair</button>
     </div>
     
-    <div class="input-group">
-        <label for="login-password">Senha:</label>
-        <input type="password" id="login-password" placeholder="Digite sua senha">
+    <div class="input-container">
+      <input type="text" id="novaTarefa" placeholder="Adicionar nova tarefa">
+      <button onclick="adicionarTarefa()">Adicionar</button>
     </div>
 
-    <button type="button" onclick="fazerLogin()">Entrar</button>
-</div>
+    <div class="main-layout">
 
-<script type="module" src="js/main.js"></script>
+    </div>
+  </section>
+
+  <script type="module" src="main.js"></script>
 </body>
 </html>

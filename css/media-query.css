@@ -1,4 +1,4 @@
-/* css/responsive.css */
+/* media-query.css */
 
 /* TABLETS (Até 900px) */
 @media (max-width: 900px) {
@@ -12,23 +12,35 @@
 
 /* CELULARES (Até 600px) */
 @media (max-width: 600px) {
+    /* Ajuste do Grid para uma única coluna */
     .main-layout {
-        flex-direction: column; /* Colunas ficam uma embaixo da outra */
+        grid-template-columns: 1fr; /* Força os itens a ocuparem 100% da largura */
+        gap: 15px;
+    }
+
+    /* Ajuste do container de input para não quebrar o layout */
+    .input-container {
+        flex-direction: column;
         align-items: stretch;
     }
 
-    .input-container {
-        flex-direction: column; /* Input e botão empilhados */
+    .nova-tarefa {
+        max-width: 100%; /* Garante que o input ocupe a largura toda */
     }
 
-    .botao-tarefa { width: 100%; }
+    .botao-tarefa {
+        width: 100%;
+    }
 
     .coluna-tarefas {
-        min-height: auto;
-        margin-bottom: 20px;
+        min-height: auto; /* Remove a altura mínima fixa para não sobrar espaço vazio */
+        padding: 1rem;
     }
 
+    /* Ajuste fino nos itens da lista para telas pequenas */
     .item-tarefa {
-        flex-wrap: wrap; /* Permite que botões quebrem linha se o texto for longo */
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 10px;
     }
 }

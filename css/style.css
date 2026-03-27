@@ -1,20 +1,72 @@
 @import url('./base.css');
-@import url('./components.css');
 @import url('./media-query.css');
-@import url('./modal.css');
+@import url('./components.css');
 @import url('./login.css');
 
-
 :root {
-    --cor-primaria: #4CAF50;
-    --cor-secundaria: #f44336;
-    --cor-fundo: #f0f0f0;
-    --cor-texto: #333333;
+    --cor-fundo: #f4f7f6;
+    --cor-texto: #2c3e50;
+    --cor-primaria: #2ecc71;
 }
 
-* {
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    /* Removido o Flexbox global que causava o conflito */
+    min-height: 100vh;
 }
 
+/* Título principal do App */
+.titulo {
+    font-size: 42px;
+    font-weight: 700;
+    text-align: center;
+    margin: 40px 0;
+    color: #2c3e50;
+}
+
+/* Container de Input (Adicionar Tarefa) */
+.input-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+.nova-tarefa {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.nova-tarefa:focus {
+    border-color: var(--cor-primaria);
+}
+
+.botao-tarefa {
+    padding: 12px 20px;
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.botao-tarefa:hover {
+    background-color: #27ae60;
+}
+
+/* Utilitário para esconder elementos */
+.oculto {
+    display: none !important;
+}

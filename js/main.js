@@ -134,33 +134,94 @@ export async function fazerLogin() {
 window.fazerLogin = fazerLogin;
 
 //função para login, armazenando o token no localStorage para futuras requisições autenticadas
-window.login = async () => {
-  const username = document.getElementById('login-username').value.trim();
-  const password = document.getElementById('login-password').value.trim();
+// main.js
 
-  try {
-      const response = await fetch('/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-      });
+window.fazerLogin = async () => {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
 
-      const data = await response.json();
+    if (!email || !password) return alert("Preencha os campos!");
 
-      if(response.ok) {
-        alert("Bem vindo, " + data.user.first_name + "!");
-        localStorage.setItem('token', data.token); // Armazena o token para futuras requisições
-      }else {
-        alert("Erro: " + data.error);
-      }
-  
+    // 1. MOSTRA O SPINNER ANTES DO FETCH
+    setLoading(true); 
+
+    try {
+        const response = await fetch('/users/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem('token', data.token);
+            mostrarAppComSuaveTransicao(); // Função que definimos antes
+        } else {
+            alert("Erro: " + data.error);
+        }
     } catch (error) {
-      console.error("Erro ao conectar com a API:", error);
-      alert("Servidor fora do ar!");
-      }
+        console.error("Erro na conexão:", error);
+    } finally {
+        // 2. ESCONDE O SPINNER SEMPRE (DANDO CERTO OU ERRADO)
+        setLoading(false); 
+    }
+};
+
+// Função para alternar entre Login e Cadastro
+window.alternarAuth = (mostrarRegistro) => {
+    document.getElementById('login-container').classList.toggle('oculto', mostrarRegistro);
+    document.getElementById('registro-container').classList.toggle('oculto', !mostrarRegistro);
+};
+
+// Função para verificar se está logado ao carregar a página
+function checarAutenticacao() {
+    const token = localStorage.getItem('token');
+    const authSection = document.getElementById('auth-section');
+    const appSection = document.getElementById('app-section');
+
+    if (token) {
+        authSection.classList.add('oculto');
+        appSection.classList.remove('oculto');
+        carregarTarefasDoServidor(); // Função que criamos anteriormente
+    } else {
+        authSection.classList.remove('oculto');
+        appSection.classList.add('oculto');
+    }
 }
+
+// main.js
+
+// Função (ou trecho do código) que mostra o App após o login
+function mostrarAppComSuaveTransicao() {
+    const authSection = document.getElementById('auth-section');
+    const appSection = document.getElementById('app-section');
+
+    // 1. Esconde a seção de login imediatamente
+    authSection.classList.add('oculto');
+
+    // 2. Remove o 'oculto' do App para que ele passe a existir no layout
+    appSection.classList.remove('oculto');
+
+    // 3. Adiciona a classe de animação para fazê-lo surgir suavemente
+    appSection.classList.add('fade-in');
+    
+    // Opcional: Remova a classe de animação após ela terminar para não dar conflito futuro
+    setTimeout(() => {
+        appSection.classList.remove('fade-in');
+    }, 550); // Um pouco mais que o tempo da animação (0.5s)
+}
+
+const loadingOverlay = document.getElementById('loading-overlay');
+
+// Função global para controlar o loading
+window.setLoading = (isLoading) => {
+    if (isLoading) {
+        loadingOverlay.classList.remove('oculto');
+    } else {
+        loadingOverlay.classList.add('oculto');
+    }
+};
 
 // Inicialização
 renderizar();
