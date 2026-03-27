@@ -1,7 +1,7 @@
-// routes/tasks.js
 import express from 'express';
 import { openDb } from '../database/database.js';
-import { verificarToken } from '../auth.js';
+import { verificarToken } from '../middleware/auth.js';
+import { saveLog } from '../database/database.js';
 
 const router = express.Router();
 
@@ -52,14 +52,16 @@ router.delete('/:id', verificarToken, async (req, res) => {
     try {
         const result = await db.run('DELETE FROM tasks WHERE id = ? AND user_id = ?', [id, req.userId]);
 
-        if (result.changes === 0) {
-            return res.status(404).json({ error: 'Tarefa não encontrada ou não pertence a você.' });
+        if (result.changes > 0) {
+            // REGISTRO DO LOG: Quem deletou
+            await saveLog(req.userId, 'DELETE_TASK', id);
+            
+            res.json({ message: 'Tarefa removida e log registrado!' });
+        } else {
+            res.status(404).json({ error: 'Tarefa não encontrada.' });
         }
-
-        console.log(`[LOG] Usuário ${req.userId} deletou a tarefa ${id}.`);
-        res.json({ message: 'Tarefa removida com sucesso!' });
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao remover tarefa.' });
+        res.status(500).json({ error: 'Erro no servidor.' });
     }
 });
 
