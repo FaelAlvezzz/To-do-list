@@ -58,5 +58,109 @@ UI.elementos.inputPrincipal.addEventListener('keypress', (e) => {
   if(e.key === 'Enter') window.adicionarTarefa();
 });
 
+
+//Registrar usuário
+window.registrar = async () => {
+    // 1. Captura os valores dos inputs
+    const email = document.getElementById('reg-email').value.trim();
+    const password = document.getElementById('reg-password').value.trim();
+
+    // Validação básica antes de enviar
+    if (!email || !password) {
+        return alert("Preencha todos os campos!");
+    }
+
+    try {
+        // 2. Faz a chamada POST para o seu servidor
+        const response = await fetch('/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                email: email, 
+                password: password
+            })
+        });
+
+        const data = await response.json();
+
+        // 3. Trata a resposta do servidor
+        if (response.ok) {
+            alert("Sucesso: " + data.message);
+            // Limpa os campos
+            document.getElementById('reg-email').value = '';
+            document.getElementById('reg-password').value = '';
+        } else {
+            alert("Erro: " + (data.error || "Não foi possível cadastrar."));
+        }
+
+    } catch (error) {
+        console.error("Erro na comunicação com o servidor:", error);
+        alert("O servidor está offline ou houve um erro de rede.");
+    }
+};
+
+//Login do usuário
+export async function fazerLogin() {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    if (!email || !password) {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    try {
+        const response = await fetch('/users/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Sucesso: " + data.message);
+            localStorage.setItem('usuario', JSON.stringify(data.user));
+        } else {
+            alert("Erro: " + (data.error || "Falha no login"));
+        }
+    } catch (error) {
+        console.error("Erro na conexão:", error);
+    }
+}
+
+window.fazerLogin = fazerLogin;
+
+//função para login, armazenando o token no localStorage para futuras requisições autenticadas
+window.login = async () => {
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value.trim();
+
+  try {
+      const response = await fetch('/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if(response.ok) {
+        alert("Bem vindo, " + data.user.first_name + "!");
+        localStorage.setItem('token', data.token); // Armazena o token para futuras requisições
+      }else {
+        alert("Erro: " + data.error);
+      }
+  
+    } catch (error) {
+      console.error("Erro ao conectar com a API:", error);
+      alert("Servidor fora do ar!");
+      }
+}
+
 // Inicialização
 renderizar();

@@ -43,6 +43,29 @@
     </div>
   </div>
 
+  <div id="registro-container">
+    <input type="text" id="reg-email" placeholder="Email">
+    <input type="password" id="reg-password" placeholder="Senha">
+    <input type="text" id="reg-first-name" placeholder="Primeiro Nome">
+    <input type="text" id="reg-last-name" placeholder="Último Nome">
+    <button type="button" onclick="registrar()">Criar Conta</button>
+  </div>
+
+  <div id="login-container">
+    <h2>Login de Usuário</h2>
+    <div class="input-group">
+        <label for="login-email">Email:</label>
+        <input type="text" id="login-username" placeholder="Digite seu nome de usuário">
+    </div>
+    
+    <div class="input-group">
+        <label for="login-password">Senha:</label>
+        <input type="password" id="login-password" placeholder="Digite sua senha">
+    </div>
+
+    <button type="button" onclick="fazerLogin()">Entrar</button>
+</div>
+
 <script type="module" src="js/main.js"></script>
 </body>
 </html>
