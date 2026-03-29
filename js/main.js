@@ -64,9 +64,11 @@ window.registrar = async () => {
     // 1. Captura os valores dos inputs
     const email = document.getElementById('reg-email').value.trim();
     const password = document.getElementById('reg-password').value.trim();
+    const firstName = document.getElementById('reg-first-name').value.trim();
+    const lastName = document.getElementById('reg-last-name').value.trim();
 
     // Validação básica antes de enviar
-    if (!email || !password) {
+    if (!email || !password || !firstName || !lastName) {
         return alert("Preencha todos os campos!");
     }
 
@@ -79,7 +81,9 @@ window.registrar = async () => {
             },
             body: JSON.stringify({ 
                 email: email, 
-                password: password
+                password: password,
+                firstName: firstName,
+                lastName: lastName
             })
         });
 
@@ -133,16 +137,12 @@ export async function fazerLogin() {
 
 window.fazerLogin = fazerLogin;
 
-//função para login, armazenando o token no localStorage para futuras requisições autenticadas
-// main.js
-
 window.fazerLogin = async () => {
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
 
     if (!email || !password) return alert("Preencha os campos!");
 
-    // 1. MOSTRA O SPINNER ANTES DO FETCH
     setLoading(true); 
 
     try {
@@ -156,22 +156,43 @@ window.fazerLogin = async () => {
 
         if (response.ok) {
             localStorage.setItem('token', data.token);
-            mostrarAppComSuaveTransicao(); // Função que definimos antes
+            mostrarAppComSuaveTransicao();
         } else {
             alert("Erro: " + data.error);
         }
     } catch (error) {
         console.error("Erro na conexão:", error);
     } finally {
-        // 2. ESCONDE O SPINNER SEMPRE (DANDO CERTO OU ERRADO)
+
         setLoading(false); 
     }
 };
 
 // Função para alternar entre Login e Cadastro
-window.alternarAuth = (mostrarRegistro) => {
-    document.getElementById('login-container').classList.toggle('oculto', mostrarRegistro);
-    document.getElementById('registro-container').classList.toggle('oculto', !mostrarRegistro);
+export async function alternarAuth() {
+    const loginContainer = document.getElementById('login-container');
+    const registroContainer = document.getElementById('registro-container');
+    const authSection = document.getElementById('auth-section');
+
+    if (loginContainer.classList.contains('oculto')) {
+        loginContainer.classList.remove('oculto');
+        registroContainer.classList.add('oculto');
+    } else {
+        loginContainer.classList.add('oculto');
+        registroContainer.classList.remove('oculto');
+    }
+
+}
+window.alternarAuth = async () => {
+    const loginContainer = document.getElementById('login-container');
+    const registroContainer = document.getElementById('registro-container');
+    if (mostrarRegistro) {
+        loginContainer.classList.add('oculto');
+        registroContainer.classList.remove('oculto');
+    } else {
+        loginContainer.classList.remove('oculto');
+        registroContainer.classList.add('oculto');
+    }
 };
 
 // Função para verificar se está logado ao carregar a página
@@ -181,18 +202,21 @@ function checarAutenticacao() {
     const appSection = document.getElementById('app-section');
 
     if (token) {
+        // Usuário logado: mostra o app, esconde o login
         authSection.classList.add('oculto');
         appSection.classList.remove('oculto');
-        carregarTarefasDoServidor(); // Função que criamos anteriormente
+        // Aqui você chamaria sua função de carregar tarefas do banco
+        // renderizar(); 
     } else {
+        // Usuário deslogado: mostra o login, esconde o app
         authSection.classList.remove('oculto');
         appSection.classList.add('oculto');
     }
 }
 
-// main.js
+checarAutenticacao();
 
-// Função (ou trecho do código) que mostra o App após o login
+// Função para mostrar com uma transição
 function mostrarAppComSuaveTransicao() {
     const authSection = document.getElementById('auth-section');
     const appSection = document.getElementById('app-section');
@@ -206,10 +230,9 @@ function mostrarAppComSuaveTransicao() {
     // 3. Adiciona a classe de animação para fazê-lo surgir suavemente
     appSection.classList.add('fade-in');
     
-    // Opcional: Remova a classe de animação após ela terminar para não dar conflito futuro
     setTimeout(() => {
         appSection.classList.remove('fade-in');
-    }, 550); // Um pouco mais que o tempo da animação (0.5s)
+    }, 550);
 }
 
 const loadingOverlay = document.getElementById('loading-overlay');
@@ -222,6 +245,8 @@ window.setLoading = (isLoading) => {
         loadingOverlay.classList.add('oculto');
     }
 };
+
+
 
 // Inicialização
 renderizar();

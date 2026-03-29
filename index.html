@@ -30,8 +30,8 @@
       <input type="text" id="reg-last-name" placeholder="Sobrenome">
       <input type="email" id="reg-email" placeholder="Email">
       <input type="password" id="reg-password" placeholder="Senha">
-      <button onclick="registrar()">Criar Conta</button>
-      <p>Já tem conta? <a href="#" onclick="alternarAuth(false)">Fazer Login</a></p>
+      <button onclick="alternarAuth(true)">Criar Conta</button>
+      <p>Já tem conta? <a href="#" id="link-login" onclick="alternarAuth(false)">Fazer Login</a></p>
     </div>
   </section>
 
@@ -51,6 +51,6 @@
     </div>
   </section>
 
-  <script type="module" src="main.js"></script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>

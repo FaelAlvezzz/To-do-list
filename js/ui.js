@@ -1,5 +1,5 @@
 export const elementos = {
-    inputPrincipal: document.getElementById('nova-tarefa'),
+    inputPrincipal: document.getElementById('novatarefa'),
     listaPendentes: document.getElementById('lista-tarefas'),
     listaConcluidas: document.getElementById('tarefas-concluidas'),
     modal: document.getElementById('modal-edicao'),

@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     res.json(users);
 });
 
-//POST criando usuário com hash de senha
+//POST criando usuário
 router.post('/', async (req, res) => {
     const { first_name, last_name, email, password } = req.body;
     const db = await openDb();
